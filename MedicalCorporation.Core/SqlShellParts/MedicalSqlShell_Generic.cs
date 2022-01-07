@@ -211,7 +211,7 @@ namespace MedicalCorporation.Core.SqlShellParts
             var cmdtxt = $"SELECT COLUMN_NAME " +
                 $"FROM[{_dbName}].INFORMATION_SCHEMA.COLUMNS " +
                 $"WHERE TABLE_NAME = N'{tableName}'";
-            return ReadArrayOfStrings(cmdtxt);
+            return ReadArrayOfFirstStrings(cmdtxt);
         }
     }
 }

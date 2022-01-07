@@ -5,15 +5,15 @@ namespace MedicalInformationSystem
 {
     static class Program
     {
-        /// <summary> Главная точка входа для приложения </summary>
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var config = Settings.GetSqlSettingsFromConfigFile(Constants.ConfigFileName);
-            using (var sqlshell = new MedicalSqlShell(config, Constants.PathsToGenerateDbScripts))
-                Application.Run(new AuthorizationForm(sqlshell));
+            var config = AppSettings.GetAppSettingsFromConfigFile();
+
+            using (var sqlshell = new MedicalSqlShell(config.SqlServerSettings, Constants.PathsToGenerateDbScripts))
+                Application.Run(new AuthorizationForm(config, sqlshell));
         }
     }
 }

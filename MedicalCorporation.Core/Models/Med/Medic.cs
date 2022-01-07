@@ -5,7 +5,7 @@
         public static string TableName { get; } = $"{Scheme.med}.Medics";
 
         public int UserId { get; set; }
-        public string AcademicDegree { get; set; }
-        public string Rank { get; set; }
+        public int AcademicDegreeId { get; set; }
+        public int RankId { get; set; }
     }
 }

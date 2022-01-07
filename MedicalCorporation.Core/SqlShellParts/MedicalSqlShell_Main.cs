@@ -13,9 +13,9 @@ namespace MedicalCorporation.Core.SqlShellParts
         private readonly string _dbName = CoreConstants.DbName;
         private readonly int _commandTimeout = CoreConstants.CommandTimeout;
 
-        private readonly Settings _settings;
+        private readonly SqlServerSettings _settings;
 
-        public MedicalSqlShell(Settings setiings, string[] pathsToGenerateDbScripts, bool checkVersion = true)
+        public MedicalSqlShell(SqlServerSettings setiings, string[] pathsToGenerateDbScripts, bool checkVersion = true)
         {
             _settings = setiings; 
 
@@ -44,12 +44,15 @@ namespace MedicalCorporation.Core.SqlShellParts
         private void CreateDBIfItDoesNotExist(string[] pathsToGenerateDbScripts)
         {
             var cmdtxt = $"SELECT * FROM master.dbo.sysdatabases WHERE name = '{_dbName}'";
-            if (ReadArrayOfStrings(cmdtxt).Length == 0)
+            if (ReadArrayOfFirstStrings(cmdtxt).Length == 0)
             {
                 foreach (var path in pathsToGenerateDbScripts)
                 {
-                    var sqlCmd = CoreExtensions.ReadFile(path);
-                    ExecuteNonQueryAndCheckAffectedRows(sqlCmd);
+                    var sqlCmds = CoreExtensions.ReadFile(path);
+                    foreach (var sqlCmd in sqlCmds.Split(new[] { "GO", "go" }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        ExecuteNonQueryAndCheckAffectedRows(sqlCmd);
+                    }
                 }
             }
         }
@@ -64,7 +67,7 @@ namespace MedicalCorporation.Core.SqlShellParts
                 throw new Exception("Версия структуры отличается от версии библиотеки типов");
         }
 
-        public string[] ReadArrayOfStrings(string cmdText)
+        public string[] ReadArrayOfFirstStrings(string cmdText)
         {
             var list = new List<string>();
             using (var reader = ExecuteReader(cmdText))
@@ -114,18 +117,30 @@ namespace MedicalCorporation.Core.SqlShellParts
 
         public void Dispose()
         {
-            _connection?.Dispose();
+            try
+            {
+                _connection?.Dispose();
+            }
+            catch { }
         }
     }
 
-    public class Settings
+    public class SqlServerSettings
     {
         public string ServerName { get; set; }
         public bool? IntegratedSecurity { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
 
-        public static Settings GetSqlSettingsFromConfigFile(string pathToConfig) =>
-            CoreExtensions.DeserializeFile<Settings>(pathToConfig);
+        public static SqlServerSettings GetDefaultSettings()
+        {
+            return new SqlServerSettings()
+            {
+                ServerName = "localhost",
+                IntegratedSecurity = true,
+                Login = null,
+                Password = null,
+            };
+        }
     }
 }

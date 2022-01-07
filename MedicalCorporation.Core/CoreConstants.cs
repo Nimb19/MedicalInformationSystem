@@ -9,7 +9,7 @@ namespace MedicalCorporation.Core
         public const string DbName = "MedicalCorporation";
         public const int CommandTimeout = 30;
 
-        public const string StructVersion = "001001005";
+        public const string StructVersion = "001001006";
         public static readonly string ProductVersion 
             = Assembly.GetExecutingAssembly().GetName().Version.ToString();
     }

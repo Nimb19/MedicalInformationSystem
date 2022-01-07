@@ -56,7 +56,9 @@
     <Compile Include="Models\Geo\MedicalInstituteType.cs" />
     <Compile Include="Models\Geo\MedicalInstitutionPlace.cs" />
     <Compile Include="Models\Assoc\MedicalInstitutionsType.cs" />
+    <Compile Include="Models\Med\AcademicDegree.cs" />
     <Compile Include="Models\Med\Medic.cs" />
+    <Compile Include="Models\Med\Rank.cs" />
     <Compile Include="Models\Med\StationaryRecord.cs" />
     <Compile Include="Models\Med\OutpatientRecord.cs" />
     <Compile Include="Models\Med\Operation.cs" />

@@ -36,6 +36,12 @@ namespace MedicalCorporation.Core
             return JsonConvert.DeserializeObject<T>(fileText);
         }
 
+        public static void SerializeToFile<T>(T obj, string pathToFile)
+        {
+            var text = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            WriteToFile(text, pathToFile, append: false);
+        }
+
         public static string FormatToDate(this DateTime dateTime, bool fullDate = false)
         {
             if (fullDate)
