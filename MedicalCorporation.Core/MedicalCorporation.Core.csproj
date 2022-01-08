@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CoreConstants.cs" />
     <Compile Include="CoreExtensions.cs" />
+    <Compile Include="Models\EtalonRolesEnum.cs" />
     <Compile Include="Models\Geo\Department.cs" />
     <Compile Include="Models\IHaveIdentifier.cs" />
     <Compile Include="Models\Geo\MedicalInstitute.cs" />

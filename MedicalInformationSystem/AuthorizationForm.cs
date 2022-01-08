@@ -10,12 +10,12 @@ namespace MedicalInformationSystem
     public partial class AuthorizationForm : Form
     {
         private MedicalSqlShell _sqlshell;
-        private AppSettings _config;
+        private AppSettings _appSettings;
 
-        public AuthorizationForm(AppSettings config, MedicalSqlShell sqlshell)
+        public AuthorizationForm(AppSettings appSettings, MedicalSqlShell sqlshell)
         {
             _sqlshell = sqlshell;
-            _config = config;
+            _appSettings = appSettings;
 
             // TODO: автоподключение
 
@@ -42,9 +42,12 @@ namespace MedicalInformationSystem
                     MessageBox.Show($"Авторизация прошла успешно", "Авторизация"
                         , MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    if (checkBoxRememberMe.Checked)
+                        AppSettings.SaveUserAuthData(_appSettings, login, password);
+
                     this.Hide();
 
-                    new PatientForm(authClient, _config, _sqlshell).ShowDialog();
+                    new PatientForm(authClient, _appSettings, _sqlshell).ShowDialog();
 
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -57,7 +60,7 @@ namespace MedicalInformationSystem
             }
         }
 
-        private User AuthorizeClient(string login, string password, int? userId = null) // TODO: userId
+        private User AuthorizeClient(string login, string password) 
         {
             var checkCondition = $"{nameof(User.Login)} = N'{login}' AND {nameof(User.Password)} = N'{password}'";
             var authClient = _sqlshell.GetWhere<User>(checkCondition).FirstOrDefault();

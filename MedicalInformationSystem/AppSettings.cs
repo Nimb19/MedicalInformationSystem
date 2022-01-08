@@ -19,11 +19,20 @@ namespace MedicalInformationSystem
 
             return config;
         }
+
+        public static void SaveUserAuthData(AppSettings appSettings, string login, string password)
+        {
+            appSettings.DefaultUserSettings = new DefaultUserSettings()
+            {
+                Login = login,
+                Password = password
+            };
+            CoreExtensions.SerializeToFile(appSettings, Constants.PathToConfigFile);
+        }
     }
 
     public class DefaultUserSettings
     {
-        public int? UserId { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
     }

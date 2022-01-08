@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatientForm));
             this.buttonAllWorkingMedics = new System.Windows.Forms.Button();
             this.buttonSelectMedics = new System.Windows.Forms.Button();
@@ -57,6 +56,7 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.общееToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.обновитьТекстовыеРедакторыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выйтиСФормыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выйтиИзУчётнойЗаписиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выйтиСПриложенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -287,6 +287,7 @@
             this.comboBoxPlace.Name = "comboBoxPlace";
             this.comboBoxPlace.Size = new System.Drawing.Size(317, 28);
             this.comboBoxPlace.TabIndex = 34;
+            this.comboBoxPlace.TextChanged += new System.EventHandler(this.ComboBoxPlace_TextChanged);
             // 
             // comboBoxMedicsProfile
             // 
@@ -321,14 +322,6 @@
             this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Century Gothic", 10F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(435, 36);
             this.dataGridView.Name = "dataGridView";
@@ -350,6 +343,7 @@
             // общееToolStripMenuItem
             // 
             this.общееToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.обновитьТекстовыеРедакторыToolStripMenuItem,
             this.выйтиСФормыToolStripMenuItem,
             this.выйтиИзУчётнойЗаписиToolStripMenuItem,
             this.выйтиСПриложенияToolStripMenuItem});
@@ -357,24 +351,31 @@
             this.общееToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.общееToolStripMenuItem.Text = "Общее";
             // 
+            // обновитьТекстовыеРедакторыToolStripMenuItem
+            // 
+            this.обновитьТекстовыеРедакторыToolStripMenuItem.Name = "обновитьТекстовыеРедакторыToolStripMenuItem";
+            this.обновитьТекстовыеРедакторыToolStripMenuItem.Size = new System.Drawing.Size(315, 22);
+            this.обновитьТекстовыеРедакторыToolStripMenuItem.Text = "Обновить значения в текстовых редакторах";
+            this.обновитьТекстовыеРедакторыToolStripMenuItem.Click += new System.EventHandler(this.ОбновитьТекстовыеРедакторыToolStripMenuItem_Click);
+            // 
             // выйтиСФормыToolStripMenuItem
             // 
             this.выйтиСФормыToolStripMenuItem.Name = "выйтиСФормыToolStripMenuItem";
-            this.выйтиСФормыToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.выйтиСФормыToolStripMenuItem.Size = new System.Drawing.Size(315, 22);
             this.выйтиСФормыToolStripMenuItem.Text = "Выйти с формы";
             this.выйтиСФормыToolStripMenuItem.Click += new System.EventHandler(this.ВыйтиСФормыToolStripMenuItem_Click);
             // 
             // выйтиИзУчётнойЗаписиToolStripMenuItem
             // 
             this.выйтиИзУчётнойЗаписиToolStripMenuItem.Name = "выйтиИзУчётнойЗаписиToolStripMenuItem";
-            this.выйтиИзУчётнойЗаписиToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.выйтиИзУчётнойЗаписиToolStripMenuItem.Size = new System.Drawing.Size(315, 22);
             this.выйтиИзУчётнойЗаписиToolStripMenuItem.Text = "Выйти из учётной записи";
             this.выйтиИзУчётнойЗаписиToolStripMenuItem.Click += new System.EventHandler(this.ВыйтиИзУчётнойЗаписиToolStripMenuItem_Click);
             // 
             // выйтиСПриложенияToolStripMenuItem
             // 
             this.выйтиСПриложенияToolStripMenuItem.Name = "выйтиСПриложенияToolStripMenuItem";
-            this.выйтиСПриложенияToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.выйтиСПриложенияToolStripMenuItem.Size = new System.Drawing.Size(315, 22);
             this.выйтиСПриложенияToolStripMenuItem.Text = "Выйти с приложения";
             this.выйтиСПриложенияToolStripMenuItem.Click += new System.EventHandler(this.ВыйтиСПриложенияToolStripMenuItem_Click);
             // 
@@ -446,5 +447,6 @@
         private System.Windows.Forms.CheckBox checkBoxAcademicDegree;
         private System.Windows.Forms.ComboBox comboBoxAcademicDegree;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ToolStripMenuItem обновитьТекстовыеРедакторыToolStripMenuItem;
     }
 }
