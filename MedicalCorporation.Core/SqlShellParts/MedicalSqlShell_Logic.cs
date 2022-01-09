@@ -1,8 +1,5 @@
 ﻿using MedicalCorporation.Core.Models;
 using MedicalCorporation.Core.Models.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MedicalCorporation.Core.SqlShellParts
 {
@@ -33,30 +30,37 @@ namespace MedicalCorporation.Core.SqlShellParts
         public WorkingMedicInfo[] GetAllWorkingMedics()
         {
             var cmdTxt = $@" -- Вывести всех работающих медиков
-    SELECT
-    
-        {User.TableName}.{nameof(User.Id)} as Id, 
-    	{User.TableName}.{nameof(User.Name)} as Name, 
-    	{User.TableName}.{nameof(User.Surname)} as Surname, 
-    	{User.TableName}.{nameof(User.Patronymic)} as Patronymic, 
-    	{Profile.TableName}.{nameof(Profile.Name)} as ProfileName, 
-    	{Rank.TableName}.{nameof(Rank.Name)} as RankName,
-	    {UserProfile.TableName}.{nameof(UserProfile.WorkExperienceInYears)} as WorkExperienceInYears
-    
-    FROM [{_dbName}].{UserProfile.TableName}
-    
-    INNER JOIN {Profile.TableName} ON {Profile.TableName}.{nameof(Profile.Id)} = {UserProfile.TableName}.{nameof(UserProfile.ProfileId)}
-    INNER JOIN {Medic.TableName} ON {Medic.TableName}.{nameof(Medic.UserId)} = {UserProfile.TableName}.{nameof(UserProfile.UserId)}
-    INNER JOIN {Rank.TableName} ON {Rank.TableName}.{nameof(Rank.Id)} = {Medic.TableName}.{nameof(Medic.RankId)}
-    INNER JOIN {Worker.TableName} ON {Worker.TableName}.{nameof(Worker.UserId)} = {Medic.TableName}.{nameof(Medic.UserId)}
-    INNER JOIN {User.TableName} ON {User.TableName}.{nameof(User.Id)} = {Medic.TableName}.{nameof(Medic.UserId)}
-    
-    WHERE {Worker.TableName}.{nameof(Worker.IsEnabled)} = 1 AND {Profile.TableName}.{nameof(Profile.RoleId)} = {(int)EtalonRolesEnum.Medic} 
-    AND EXISTS(
-        SELECT 1 FROM [{_dbName}].{UserRole.TableName} 
-        WHERE {UserRole.TableName}.{nameof(UserRole.UserId)} = {User.TableName}.{nameof(User.Id)} 
-        AND {UserRole.TableName}.{nameof(UserRole.RoleId)} = {(int)EtalonRolesEnum.Medic}
-    )";
+        SELECT
+        
+            {User.TableName}.{nameof(User.Id)} as {nameof(WorkingMedicInfo.Id)}, 
+        	{User.TableName}.{nameof(User.Name)} as {nameof(WorkingMedicInfo.Name)}, 
+        	{User.TableName}.{nameof(User.Surname)} as {nameof(WorkingMedicInfo.Surname)}, 
+        	{User.TableName}.{nameof(User.Patronymic)} as {nameof(WorkingMedicInfo.Patronymic)}, 
+        	{Profile.TableName}.{nameof(Profile.Name)} as {nameof(WorkingMedicInfo.ProfileName)}, 
+        	{Rank.TableName}.{nameof(Rank.Name)} as {nameof(WorkingMedicInfo.RankName)},
+	        {UserProfile.TableName}.{nameof(UserProfile.WorkExperienceInYears)} as {nameof(WorkingMedicInfo.WorkExperienceInYears)}
+        
+        FROM [{_dbName}].{UserProfile.TableName} 
+        
+        INNER JOIN {Profile.TableName} 
+            ON {Profile.TableName}.{nameof(Profile.Id)} = {UserProfile.TableName}.{nameof(UserProfile.ProfileId)}
+        INNER JOIN {Medic.TableName} 
+            ON {Medic.TableName}.{nameof(Medic.UserId)} = {UserProfile.TableName}.{nameof(UserProfile.UserId)}
+        INNER JOIN {Rank.TableName} 
+            ON {Rank.TableName}.{nameof(Rank.Id)} = {Medic.TableName}.{nameof(Medic.RankId)}
+        INNER JOIN {Worker.TableName} 
+            ON {Worker.TableName}.{nameof(Worker.UserId)} = {Medic.TableName}.{nameof(Medic.UserId)}
+        INNER JOIN {User.TableName} 
+            ON {User.TableName}.{nameof(User.Id)} = {Medic.TableName}.{nameof(Medic.UserId)}
+        
+        WHERE {Worker.TableName}.{nameof(Worker.IsEnabled)} = 1 
+        AND {Profile.TableName}.{nameof(Profile.RoleId)} = {(int)EtalonRolesEnum.Medic} 
+        AND EXISTS(
+            SELECT 1 
+            FROM [{_dbName}].{UserRole.TableName} 
+            WHERE {UserRole.TableName}.{nameof(UserRole.UserId)} = {User.TableName}.{nameof(User.Id)} 
+            AND {UserRole.TableName}.{nameof(UserRole.RoleId)} = {(int)EtalonRolesEnum.Medic}
+        )";
 
             return GetArrayOf<WorkingMedicInfo>(cmdTxt);
         }

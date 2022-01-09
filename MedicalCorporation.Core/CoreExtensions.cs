@@ -2,11 +2,22 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace MedicalCorporation.Core
 {
     public static class CoreExtensions
     {
+        public static object GetResourceValue(Type resourceProvider, string resourceKey)
+        {
+            var resource = resourceProvider.GetProperties(BindingFlags.Static | BindingFlags.NonPublic)
+                .FirstOrDefault(x => x.Name == resourceKey)?
+                .GetValue(null);
+
+            return resource ?? resourceKey;
+        }
+
         public static DateTime RoundUp(this DateTime dt, TimeSpan d)
         {
             return new DateTime((dt.Ticks + d.Ticks - 1) / d.Ticks * d.Ticks, dt.Kind);

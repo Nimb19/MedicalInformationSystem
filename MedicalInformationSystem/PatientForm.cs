@@ -1,4 +1,5 @@
 ﻿using MedicalCorporation.Core.Models;
+using MedicalCorporation.Core.Models.DTO;
 using MedicalCorporation.Core.SqlShellParts;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace MedicalInformationSystem
         {
             CatchException(() =>
             {
-                Medic[] medics = _sqlServerManager.GetAllWorkingMedics();
+                WorkingMedicInfo[] medics = _sqlServerManager.GetAllWorkingMedics();
                 dataGridView.FillTableWithCollection(medics);
             });
         }
@@ -44,7 +45,7 @@ namespace MedicalInformationSystem
         {
             CatchException(() =>
             {
-                Medic[] medics = _sqlServerManager.GetAllWorkingMedics(); // TODO: Написать умные запросы
+                WorkingMedicInfo[] medics = _sqlServerManager.GetAllWorkingMedics(); // TODO: Написать умные запросы
                 dataGridView.FillTableWithCollection(medics);
             });
         }

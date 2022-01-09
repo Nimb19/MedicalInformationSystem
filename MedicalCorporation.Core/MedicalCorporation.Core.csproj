@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="CoreConstants.cs" />
     <Compile Include="CoreExtensions.cs" />
-    <Compile Include="Models\DisplayNameAttribute.cs" />
+    <Compile Include="Models\DTO\DTOPropertyInfoAttribute.cs" />
     <Compile Include="Models\DTO\WorkingMedicInfo.cs" />
     <Compile Include="Models\Tables\EtalonRolesEnum.cs" />
     <Compile Include="Models\Tables\Geo\Department.cs" />
@@ -89,6 +89,8 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Localization\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

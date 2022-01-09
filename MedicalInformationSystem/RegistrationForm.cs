@@ -1,4 +1,4 @@
-﻿using MedicalInformationSystem.Models;
+﻿using MedicalCorporation.Core.SqlShellParts;
 using System;
 using System.Windows.Forms;
 
@@ -6,9 +6,10 @@ namespace MedicalInformationSystem
 {
     public partial class RegistrationForm : Form
     {
-        private SqlServerManager _sqlshell;
+        private MedicalSqlShell _sqlshell;
+        private AppSettings _appSettings;
 
-        public RegistrationForm(SqlServerManager sqlshell)
+        public RegistrationForm(AppSettings appSettings, MedicalSqlShell sqlshell)
         {
             _sqlshell = sqlshell;
 
@@ -21,27 +22,27 @@ namespace MedicalInformationSystem
         {
             try
             {
-                var name = CommonExtensions.ValidateString(textBoxName.Text, nameof(textBoxName));
-                var middlename = CommonExtensions.ValidateString(textBoxPatr.Text, nameof(textBoxPatr));
-                var surname = CommonExtensions.ValidateString(textBoxSurname.Text, nameof(textBoxSurname));
-                var age = Convert.ToInt32(numericUpDownAge.Value);
-                var login = CommonExtensions.ValidateString(textBoxLogin.Text, nameof(textBoxLogin));
-                var pass = CommonExtensions.ValidateString(textBoxPassword.Text, nameof(textBoxPassword));
-                var sex = radioButtonMan.Checked ? Sex.Male : Sex.Female;
+                //var name = CommonExtensions.ValidateString(textBoxName.Text, nameof(textBoxName));
+                //var middlename = CommonExtensions.ValidateString(textBoxPatr.Text, nameof(textBoxPatr));
+                //var surname = CommonExtensions.ValidateString(textBoxSurname.Text, nameof(textBoxSurname));
+                //var age = Convert.ToInt32(numericUpDownAge.Value);
+                //var login = CommonExtensions.ValidateString(textBoxLogin.Text, nameof(textBoxLogin));
+                //var pass = CommonExtensions.ValidateString(textBoxPassword.Text, nameof(textBoxPassword));
+                //var sex = radioButtonMan.Checked ? Sex.Male : Sex.Female;
 
-                var user = new User()
-                {
-                    Name = name,
-                    Middlename = middlename,
-                    Surname = surname,
-                    Login = login,
-                    Password = pass,
-                    Sex = sex,
-                    Age = age,
-                    TownId = 1,
-                };
+                //var user = new User()
+                //{
+                //    Name = name,
+                //    Middlename = middlename,
+                //    Surname = surname,
+                //    Login = login,
+                //    Password = pass,
+                //    Sex = sex,
+                //    Age = age,
+                //    TownId = 1,
+                //};
 
-                _sqlshell.Insert(user);
+                //_sqlshell.Insert(user);
                 MessageBox.Show("Вы успешно зарегистрированы!", "Регистрация"
                     , MessageBoxButtons.OK, MessageBoxIcon.Information);
 

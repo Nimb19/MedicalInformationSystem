@@ -1,10 +1,7 @@
-﻿using MedicalCorporation.Core.Models;
-using System;
+﻿using MedicalCorporation.Core.Models.DTO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MedicalInformationSystem
@@ -28,13 +25,14 @@ namespace MedicalInformationSystem
                     (string PropertyName, string DisplayedName) propInfo =
                     (
                         prop.Name,
-                        prop.GetCustomAttributes<DisplayedName>().FirstOrDefault()?.Name ?? prop.Name
+                        prop.GetCustomAttributes<DTOPropertyInfoAttribute>().FirstOrDefault()?.DisplayedName ?? prop.Name
                     );
                     return propInfo;
                 });
 
                 foreach (var colInfo in columnInfos)
                     dataGridView.Columns.Add(colInfo.PropertyName, colInfo.DisplayedName);
+
                 return props;
             }
 
