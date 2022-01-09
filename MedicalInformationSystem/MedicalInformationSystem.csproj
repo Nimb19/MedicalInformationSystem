@@ -92,6 +92,7 @@
       <DependentUpon>AuthorizationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="MyApointmentsInDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>

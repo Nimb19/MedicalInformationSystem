@@ -77,6 +77,7 @@
             this.buttonAllWorkingMedics.TabIndex = 28;
             this.buttonAllWorkingMedics.Text = "Получить полный список работающего мед. персонала корпорации";
             this.buttonAllWorkingMedics.UseVisualStyleBackColor = true;
+            this.buttonAllWorkingMedics.Click += new System.EventHandler(this.ButtonAllWorkingMedics_Click);
             // 
             // buttonSelectMedics
             // 
@@ -87,6 +88,7 @@
             this.buttonSelectMedics.TabIndex = 29;
             this.buttonSelectMedics.Text = "Получить мед. персонал по указанным параметрам";
             this.buttonSelectMedics.UseVisualStyleBackColor = true;
+            this.buttonSelectMedics.Click += new System.EventHandler(this.ButtonSelectMedics_Click);
             // 
             // panel1
             // 

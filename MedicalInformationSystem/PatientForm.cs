@@ -1,10 +1,10 @@
-﻿using MedicalCorporation.Core;
-using MedicalCorporation.Core.Models;
+﻿using MedicalCorporation.Core.Models;
 using MedicalCorporation.Core.SqlShellParts;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace MedicalInformationSystem
@@ -31,17 +31,22 @@ namespace MedicalInformationSystem
             });
         }
 
-        private void CatchException(Action action)
+        private void ButtonAllWorkingMedics_Click(object sender, EventArgs e)
         {
-            try
+            CatchException(() =>
             {
-                action.Invoke();
-            }
-            catch (Exception exc)
+                Medic[] medics = _sqlServerManager.GetAllWorkingMedics();
+                dataGridView.FillTableWithCollection(medics);
+            });
+        }
+
+        private void ButtonSelectMedics_Click(object sender, EventArgs e)
+        {
+            CatchException(() =>
             {
-                MessageBox.Show(exc.Message, "Ошибка"
-                    , MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                Medic[] medics = _sqlServerManager.GetAllWorkingMedics(); // TODO: Написать умные запросы
+                dataGridView.FillTableWithCollection(medics);
+            });
         }
 
         private void SetDefaultComboBoxValues()
@@ -65,24 +70,37 @@ namespace MedicalInformationSystem
                 comboBox.Items.Add(name);
         }
 
-        //private void UpdateApointmentsTable()
-        //{
-        //dgvAppointments.Rows.Clear();
+        private void ComboBoxPlace_TextChanged(object sender, EventArgs e)
+        {
+            CatchException(() =>
+            {
+                var comboBox = sender as ComboBox;
+                if (comboBox == null || string.IsNullOrWhiteSpace(comboBox.Text))
+                    return;
 
-        //var appointments = _sqlServerManager.GetWhere<Appointment>($"UserId = {_userInfo.Id}")
-        //.Where(x => x.AppointmentDate > DateTime.Now);
+                var trimedComboBoxText = comboBox.Text.Trim();
+                var place = _sqlServerManager.GetMedicalInstitionsPlaces().FirstOrDefault(x =>
+                    string.Equals(x.Name, trimedComboBoxText, StringComparison.InvariantCultureIgnoreCase));
+                if (place == null)
+                    throw new ArgumentException("Такого города/посёлка не существует");// TOOD: Check exception;
 
-        //var doctors = _sqlServerManager.GetArrayOf<Doctor>();
-        //var hospitals = _sqlServerManager.GetArrayOf<Hospital>();
-        //foreach (var apointment in appointments)
-        //{
-        //    var doctor = doctors.First(x => x.Id == apointment.DoctorId);
-        //    var hospital = hospitals.First(x => x.Id == doctor.HospitalId);
+                var institutions = _sqlServerManager.GetMedicalInstitions(place.Id);
+                SetArrayToComboBox(institutions.Select(x => x.Name), comboBoxMedicalInstitions);
+            });
+        }
 
-        //    dgvAppointments.Rows.Add(doctor.Surname, apointment.AppointmentDate
-        //        , apointment.Price, hospital.Name);
-        //}
-        //}
+        private void CatchException(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Ошибка"
+                    , MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void ВыйтиСПриложенияToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -112,25 +130,6 @@ namespace MedicalInformationSystem
             CatchException(() =>
             {
                 SetDefaultComboBoxValues();
-            });
-        }
-
-        private void ComboBoxPlace_TextChanged(object sender, EventArgs e)
-        {
-            CatchException(() =>
-            {
-                var comboBox = sender as ComboBox;
-                if (comboBox == null || string.IsNullOrWhiteSpace(comboBox.Text))
-                    return;
-
-                var trimedComboBoxText = comboBox.Text.Trim();
-                var place = _sqlServerManager.GetMedicalInstitionsPlaces().FirstOrDefault(x =>
-                    string.Equals(x.Name, trimedComboBoxText, StringComparison.InvariantCultureIgnoreCase));
-                if (place == null)
-                    throw new ArgumentException("Такого города/посёлка не существует");// TOOD: Check exception;
-
-                var institutions = _sqlServerManager.GetMedicalInstitions(place.Id);
-                SetArrayToComboBox(institutions.Select(x => x.Name), comboBoxMedicalInstitions);
             });
         }
     }
